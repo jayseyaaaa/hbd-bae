@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula 1 2024 Grid</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+        
+        :root {
+            --f1-red: #e10600;
+            --f1-black: #15151e;
+            --f1-white: #ffffff;
+            --f1-yellow: #ffd800;
+        }
+        
+        body {
+            font-family: 'Titillium Web', sans-serif;
+            background-color: var(--f1-black);
+            margin: 0;
+            padding: 0;
+            color: var(--f1-white);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(225, 6, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(255, 216, 0, 0.15) 0%, transparent 20%);
+        }
+        
+        header {
+            background: linear-gradient(90deg, var(--f1-black) 0%, var(--f1-red) 50%, var(--f1-black) 100%);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid var(--f1-yellow);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--f1-white);
+            text-shadow: 0 0 10px rgba(225, 6, 0, 0.7);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            color: var(--f1-yellow);
+            margin-top: 5px;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            border-top: 3px solid;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(225, 6, 0, 0.3);
+        }
+        
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--f1-yellow), transparent);
+            opacity: 0.7;
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        
+        .car-name {
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .card-body {
+            padding: 20px;
+            position: relative;
+        }
+        
+        .drivers {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .driver {
+            flex: 1;
+        }
+        
+        .driver-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .driver-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-color: var(--f1-red);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.8rem;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .driver-image {
+            width: 100%;
+            height: 120px;
+            background-color: rgba(0,0,0,0.3);
+            background-size: cover;
+            background-position: center;
+            margin-top: 10px;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .driver-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+        
+        .driver-flag {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 30px;
+            height: 20px;
+            border-radius: 2px;
+            z-index: 1;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        
+        /* Team-specific styling */
+        .red-bull {
+            border-top-color: #0600ef;
+            background: linear-gradient(135deg, rgba(6, 0, 239, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .mercedes {
+            border-top-color: #00d2be;
+            background: linear-gradient(135deg, rgba(0, 210, 190, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .ferrari {
+            border-top-color: #dc0000;
+            background: linear-gradient(135deg, rgba(220, 0, 0, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .mclaren {
+            border-top-color: #ff8700;
+            background: linear-gradient(135deg, rgba(255, 135, 0, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .aston-martin {
+            border-top-color: #006f62;
+            background: linear-gradient(135deg, rgba(0, 111, 98, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .alpine {
+            border-top-color: #0090ff;
+            background: linear-gradient(135deg, rgba(0, 144, 255, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .williams {
+            border-top-color: #005aff;
+            background: linear-gradient(135deg, rgba(0, 90, 255, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .vcarb {
+            border-top-color: #2b4562;
+            background: linear-gradient(135deg, rgba(43, 69, 98, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .sauber {
+            border-top-color: #52e252;
+            background: linear-gradient(135deg, rgba(82, 226, 82, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        .haas {
+            border-top-color: #ffffff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(30, 30, 40, 0.8) 70%);
+        }
+        
+        /* Pseudo speed lines */
+        .speed-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.03) 46%, rgba(255,255,255,0.03) 54%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, rgba(255,255,255,0.03) 46%, rgba(255,255,255,0.03) 54%, transparent 55%);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Formula 1</h1>
+        <div class="subtitle">2024 CONSTRUCTORS' CHAMPIONSHIP</div>
+    </header>
+    
+    <div class="cards">
+        <!-- Red Bull Racing -->
+        <div class="card red-bull">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Red Bull Racing</div>
+                <div class="car-name">RB20</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">1</span>
+                            Max Verstappen
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/verstappen.jpg.img.640.medium.jpg/1677069783817.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/netherlands-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">11</span>
+                            Sergio Pérez
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/perez.jpg.img.640.medium.jpg/1677069777469.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/mexico-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mercedes -->
+        <div class="card mercedes">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Mercedes</div>
+                <div class="car-name">W15</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">44</span>
+                            Lewis Hamilton
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/hamilton.jpg.img.640.medium.jpg/1677069594164.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/great-britain-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">63</span>
+                            George Russell
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/russell.jpg.img.640.medium.jpg/1677069760722.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/great-britain-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ferrari -->
+        <div class="card ferrari">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Ferrari</div>
+                <div class="car-name">SF-24</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">16</span>
+                            Charles Leclerc
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/leclerc.jpg.img.640.medium.jpg/1677069604165.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/monaco-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">55</span>
+                            Carlos Sainz
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/sainz.jpg.img.640.medium.jpg/1677069750721.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/spain-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- McLaren -->
+        <div class="card mclaren">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">McLaren</div>
+                <div class="car-name">MCL38</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">4</span>
+                            Lando Norris
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/norris.jpg.img.640.medium.jpg/1677069684168.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/great-britain-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">81</span>
+                            Oscar Piastri
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/piastri.jpg.img.640.medium.jpg/1677069704169.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/australia-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aston Martin -->
+        <div class="card aston-martin">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Aston Martin</div>
+                <div class="car-name">AMR24</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">14</span>
+                            Fernando Alonso
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/alonso.jpg.img.640.medium.jpg/1677069544162.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/spain-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">18</span>
+                            Lance Stroll
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/stroll.jpg.img.640.medium.jpg/1677069833819.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/canada-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alpine -->
+        <div class="card alpine">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Alpine</div>
+                <div class="car-name">A524</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">10</span>
+                            Pierre Gasly
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/gasly.jpg.img.640.medium.jpg/1677069574163.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/france-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">31</span>
+                            Esteban Ocon
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/ocon.jpg.img.640.medium.jpg/1677069694168.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/france-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Williams -->
+        <div class="card williams">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Williams</div>
+                <div class="car-name">FW46</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">23</span>
+                            Alex Albon
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/albon.jpg.img.640.medium.jpg/1677069534162.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/thailand-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">2</span>
+                            Logan Sargeant
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/sargeant.jpg.img.640.medium.jpg/1677069740721.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/usa-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visa Cash App RB -->
+        <div class="card vcarb">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Visa Cash App RB</div>
+                <div class="car-name">VCARB 01</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">3</span>
+                            Daniel Ricciardo
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/ricciardo.jpg.img.640.medium.jpg/1677069720721.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/australia-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">22</span>
+                            Yuki Tsunoda
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/tsunoda.jpg.img.640.medium.jpg/1677069843819.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/japan-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sauber -->
+        <div class="card sauber">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">Stake F1 Team Kick Sauber</div>
+                <div class="car-name">C44</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">77</span>
+                            Valtteri Bottas
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/bottas.jpg.img.640.medium.jpg/1677069554163.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/finland-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">24</span>
+                            Zhou Guanyu
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/zhou.jpg.img.640.medium.jpg/1677069853819.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/china-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Haas -->
+        <div class="card haas">
+            <div class="speed-lines"></div>
+            <div class="card-header">
+                <div class="team-name">MoneyGram Haas F1 Team</div>
+                <div class="car-name">VF-24</div>
+            </div>
+            <div class="card-body">
+                <div class="drivers">
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">27</span>
+                            Nico Hülkenberg
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/hulkenberg.jpg.img.640.medium.jpg/1677069584164.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/germany-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                    <div class="driver">
+                        <div class="driver-name">
+                            <span class="driver-number">20</span>
+                            Kevin Magnussen
+                        </div>
+                        <div class="driver-image" style="background-image: url('https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/magnussen.jpg.img.640.medium.jpg/1677069654167.jpg')">
+                            <img src="https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/denmark-flag.png.transform/1col/image.png" class="driver-flag">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
